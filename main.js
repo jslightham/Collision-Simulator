@@ -74,7 +74,7 @@ function main(elem){
     //canvas.addEventListener("onmouseup", doMouseUp, false);
 
     // Loop through each particle every 10 milliseconds, create measurements every 1 second
-    setInterval(loop, 10);
+    setInterval(loop, 20);
     setInterval(measureData, 1000);
 }
 

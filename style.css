@@ -74,3 +74,10 @@ ul {
     text-align: center;
     list-style-position: inside;
 }
+
+@media screen and (max-width: 1873px) {
+        .fix{
+            margin-top: 10px;
+            min-width: 75%;
+        }
+}
