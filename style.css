@@ -75,9 +75,28 @@ ul {
     list-style-position: inside;
 }
 
-@media screen and (max-width: 1873px) {
-        .fix{
-            margin-top: 10px;
-            min-width: 75%;
+
+
+@media (max-width: 768px) {
+    .container-fixed{
+        width:600px;
+    }}
+    
+    @media (max-width: 992px) {
+    .container-fixed{
+        width:720px;
+    }}
+    
+    @media (max-width: 1200px) {
+    .container-fixed{
+        width:900px;
+    }}
+
+    @media (max-width: 1900px) {
+        .container-fixed{
+            width:1250px;
         }
-}
+        #quote-2-high{
+            max-width: 790px;
+        }
+    }
