@@ -43,6 +43,8 @@ var chartX = "measurement";
 var chartY = "ekt"
 measurementData.push('Measurement Number');
 measurementData.push(0);
+var bkg = new Image();
+bkg.src = "pool.jpg"
 
 ek.push('Kientic Energy (J)');
 ek.push(0);
@@ -57,7 +59,7 @@ function main(elem){
     canvas = document.getElementById(elem);
     ctx = canvas.getContext("2d");
     table = document.getElementById("particles");
-
+    
     fr = document.getElementById("fr").value;
     //sfr = document.getElementById("sfr").value;
 
@@ -78,6 +80,7 @@ function main(elem){
 
 // The main loop function that handles each particle
 function loop(){
+    
 
     // Set volumes of sounds according to % energy transferred
     eff = document.getElementById("effe").value/100;
@@ -190,18 +193,18 @@ function loop(){
     }   
         
         // Display data in the table
-        table.rows[i+1].cells[0].innerHTML = elem.id;
-        table.rows[i+1].cells[1].innerHTML = elem.m + " kg";
-        table.rows[i+1].cells[2].innerHTML = Math.abs(elem.vx.toPrecision(2));
-        table.rows[i+1].cells[3].innerHTML = Math.abs(elem.vy.toPrecision(2));
-        table.rows[i+1].cells[4].innerHTML = elem.ax.toPrecision(2);
-        table.rows[i+1].cells[5].innerHTML = elem.ay.toPrecision(2);
+        table.rows[i+1].cells[0].innerHTML = elem.m + " kg";
+        table.rows[i+1].cells[1].innerHTML = Math.abs(elem.vx.toPrecision(2));
+        table.rows[i+1].cells[2].innerHTML = Math.abs(elem.vy.toPrecision(2));
+        table.rows[i+1].cells[3].innerHTML = elem.ax.toPrecision(2);
+        table.rows[i+1].cells[4].innerHTML = elem.ay.toPrecision(2);
     })
 }
 
 // Function to draw all particles on the canvas, and draw velocity vectors
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bkg, 0, 0, canvas.width, canvas.height); 
     particles.forEach((elem, i) => 
     {
         // Draw actual particle
@@ -370,6 +373,8 @@ function addParticle(){
         errMsg += "That mass is too large for this canvas! "
     }else if(!form["xvel"].value || !form["yvel"].value || !form["mass"].value){
         errMsg += "One or more values is not defined! "
+    }else if(form["xvel"].value > canvas.width - getRadius(form["mass"].value)*4 || form["yvel"].value > canvas.height - getRadius(form["mass"].value)*4){
+        errMsg += "The velocity of the particle you added is too large for that mass and this canvas size! "
     }
     // If no errors, add rows to the table and insert the particle into the array
     else{
@@ -404,7 +409,6 @@ function addParticle(){
         // if a valid position was found create it
         if(validPos){
             table.insertRow();
-        table.rows[table.rows.length -1].insertCell();
         table.rows[table.rows.length -1].insertCell();
         table.rows[table.rows.length -1].insertCell();
         table.rows[table.rows.length -1].insertCell();
@@ -531,6 +535,9 @@ function frChange(){
     let element = document.getElementById("fr");
     if(element.value >= 1){
         alert("The coefficient of kinetic friction cannot be more than 1 for a billiard ball!");
+        element.value = fr;
+    }else if(element.value < 0){
+        alert("The coefficient of kinetic friction for a billiard ball cannot be negative!");
         element.value = fr;
     }
     //else if(element.value >= sfr){
