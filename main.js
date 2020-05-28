@@ -69,11 +69,8 @@ function main(elem){
 
     // Set a callback to run when the charts API is loaded
     google.charts.setOnLoadCallback(drawKEChart);
-   
-    //canvas.addEventListener("mousedown", doMouseDown, false);
-    //canvas.addEventListener("onmouseup", doMouseUp, false);
 
-    // Loop through each particle every 10 milliseconds, create measurements every 1 second
+    // Loop through each particle every 20 milliseconds, create measurements every 1 second
     setInterval(loop, 20);
     setInterval(measureData, 1000);
 }
@@ -81,7 +78,6 @@ function main(elem){
 // The main loop function that handles each particle
 function loop(){
     
-
     // Set volumes of sounds according to % energy transferred
     eff = document.getElementById("effe").value/100;
     shot.volume = 1 - eff;
@@ -99,13 +95,13 @@ function loop(){
     document.getElementById("ek").innerHTML = ek[ek.length-1];
 
     // Draw board, then process collisions.
-    draw();
+    resetDraw();
     separate();
     detectCollisions();
 
     // Iterate through each particle, to change it's velocity from acceleration, and position from velocity
     particles.forEach((elem, i) => {
-
+        draw(elem);
         // Determine velocity vector and store for later use
         elem.v = Math.sqrt(Math.pow(elem.vx, 2) + Math.pow(elem.vy, 2));
         
@@ -201,12 +197,17 @@ function loop(){
     })
 }
 
-// Function to draw all particles on the canvas, and draw velocity vectors
-function draw(){
+// Function to reset the canvas
+function resetDraw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bkg, 0, 0, canvas.width, canvas.height); 
-    particles.forEach((elem, i) => 
-    {
+}
+
+
+
+// Function to draw the given particle on the canvas
+function draw(elem){
+
         // Draw actual particle
         ctx.beginPath();
         ctx.fillStyle = "black";
@@ -230,9 +231,8 @@ function draw(){
         ctx.stroke(); 
         }
         
-    });
-    
 }
+
 
 // Function that returns the distance between the two particles given
 function getDistance(p1, p2){
@@ -275,7 +275,8 @@ function separate(){
                     
                         noOverlap = false;
                     
-                    draw();
+                    draw(elem1);
+                    draw(elem2);
                 }
             }
             }
