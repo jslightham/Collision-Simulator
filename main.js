@@ -83,7 +83,6 @@ function loop(){
     shot.volume = 1 - eff;
     wallhit.volume = 1 - eff;
 
-    // Acceleration = 9.8*uk (derived from F=ma, -uk*g*m=m*a)
     a = -(9.8)*fr;
     sa = -(9.8)*sfr;
 
